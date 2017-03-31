@@ -36,6 +36,15 @@ import java.util.*;
 public class InsertDeleteGetRandomAllowDuplicate_381 {
     // map to store number and set to store indexes in the list
     // in order to remove from list
+    /**
+     * The principle here is to have a list of all the integers contained in the collection. A map keeps a set of indexes for each value in the collection since a value can appear multiple times.
+     insert is pretty straightforward. We just add the value at the end of the list (O(1) on average) and we add the index to the map (also O(1) on average).
+     getRandom is also quite simple. We just uniformly select a random index and return the value at this index. If a value appears multiple times in the collection, its probability of being returned is proportional to its number of occurrences, just as expected.
+     remove is a bit more complicated. We cannot remove a value in the middle of the list because that would take O(n). So, instead of removing it, we're gonna replace it with the last value of the list and then we're gonna remove the last value. We also need to update the indexes of the removed value and the last value of the list.
+     Replacing a value inside the list take O(1) on average because I'm using an ArrayList (a LinkedList wouldn't work). Removing the last element and updating the two indexes also takes O(1) on average.
+     In order to keep the code clean, I'm using meaningful variable names and local variables to avoid redundant code.
+     I'm also using ThreadLocalRandom to generate random numbers. It's much cleaner than using Math.random. Using a Random variable would be ok too.
+     */
     private Map<Integer, Set<Integer>> map;
     private List<Integer> list; // array list to store all numbers
     private Random random = new Random();

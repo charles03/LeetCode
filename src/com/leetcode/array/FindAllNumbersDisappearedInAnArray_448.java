@@ -41,6 +41,20 @@ public class FindAllNumbersDisappearedInAnArray_448 {
         return res;
     }
 
+    /**
+     * High Level thought:
+     * nums[i] = index1
+     * nums[j] = index2
+     * nums[i] == nums[j] means they are duplicates.
+     *
+     * modify array in place, self increment base number larger then any num in array
+     * loop modified array,
+     *  if (nums[k] <= base number) {
+     *      then k+1 is the number missing in original array
+     *  } else {
+     *      revert to original array by mod base number again
+     *  }
+     */
     public List<Integer> findDisappeared(int[] nums) {
         List<Integer> res = new ArrayList<>();
         int len = 0;

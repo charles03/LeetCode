@@ -1,6 +1,4 @@
-package com.leetcode;
-
-import com.princeton.stdlib.In;
+package com.leetcode.string;
 
 import java.util.*;
 import java.util.stream.Stream;

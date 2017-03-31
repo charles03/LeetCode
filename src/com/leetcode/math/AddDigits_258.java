@@ -1,4 +1,4 @@
-package com.leetcode.bitwise;
+package com.leetcode.math;
 
 /**
  * Created by charles on 3/25/17.

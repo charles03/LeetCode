@@ -65,7 +65,7 @@ public class RemoveKDigits_402 {
             return "0";
         }
         // substring from start index
-        return sb.toString().substring(index);
+        return sb.substring(index);
     }
 
     @Deprecated

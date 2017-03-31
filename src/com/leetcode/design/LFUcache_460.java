@@ -197,6 +197,25 @@ public class LFUcache_460 {
             lowestFrequency = 0;
         }
     }
+
+    /** several test cases in main() */
+    public static void main(String[] args) {
+        LFUcache_460 cache = new LFUcache_460(2);
+        cache.set(1, 1);
+        cache.set(2, 2);
+        print(cache.get(1));       // returns 1
+        cache.set(3, 3);    // evicts key 2
+        print(cache.get(2));       // returns -1 (not found)
+        print(cache.get(3));       // returns 3.
+        cache.set(4, 4);    // evicts key 1.
+        print(cache.get(1));       // returns -1 (not found)
+        print(cache.get(3));       // returns 3
+        print(cache.get(4));       // returns 4
+    }
+
+    private static <T> void print(T t) {
+        System.out.println(t);
+    }
 }
 
 class CacheNode {

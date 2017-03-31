@@ -15,7 +15,26 @@ package com.leetcode.dynamicprogram;
  Follow up:
  If there are lots of incoming S, say S1, S2, ... , Sk where k >= 1B, and you want to check one by one to see if T has its subsequence. In this scenario, how would you change your code?
  */
-public class IsSubsequence_ {
+public class IsSubsequence_392 {
+    /**
+     * Best Solution use indexOf, from previous index, look for index of next char
+     */
+    public boolean isSubseq(String s, String t) {
+        if (t.length() < s.length()) {
+            return false;
+        }
+        int prev = 0;
+        char[] ss = s.toCharArray();
+        for (int i = 0; i < ss.length; i++) {
+            prev = t.indexOf(ss[i], prev);
+            if (prev == -1) {
+                return false;
+            }
+            prev++;
+        }
+        return true;
+    }
+
     /**
      * DP solution
      * State dp[i] is length of sub of s which found from sub t [0, i)
@@ -41,8 +60,8 @@ public class IsSubsequence_ {
         if (ss[0] == tt[0]) {
             dp[0] = 1;
         }
-        for (int i = 1; i <= tLen; i++) {
-            if (ss[dp[i]] == tt[i]) {
+        for (int i = 1; i < tLen; i++) {
+            if (ss[dp[i - 1]] == tt[i]) {
                 dp[i] = dp[i - 1] + 1;
                 if (dp[i] == sLen) {
                     dp[tLen] = sLen;
@@ -56,6 +75,8 @@ public class IsSubsequence_ {
     }
     
     public static void main(String[] args) {
-        IsSubsequence_
+        IsSubsequence_392 i = new IsSubsequence_392();
+        System.out.println(i.isSubsequence("abc", "ahbgdc"));
+        System.out.println(i.isSubsequence("axc", "ahbgdc"));
     }
 }
