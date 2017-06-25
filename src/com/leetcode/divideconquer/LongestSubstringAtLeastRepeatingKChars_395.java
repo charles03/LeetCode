@@ -65,28 +65,28 @@ public class LongestSubstringAtLeastRepeatingKChars_395 {
     int longestSubstringGivenUniqueCharOccur(String s, int givenOccurs, int givenCountOfUnqieChars) {
         int[] map = new int[26];
         int countOfUnique = 0; // first pointer
-        int countOfNotLessThanGivenOccurs = 0; // second pointer
+        int countOfMoreThanGivenOccurs = 0; // second pointer
 
         int start = 0, end = 0; // position index
-        int frontIdx = 0, tailIndx = 0; // index in letter map
+        int frontIdx = 0, tailIdx = 0; // index in letter map
         int dist = 0;
         int len = s.length();
 
         while (end < len) {
-            tailIndx = s.charAt(end) - 'a';
-            if (map[tailIndx] == 0) {
+            tailIdx = s.charAt(end) - 'a';
+            if (map[tailIdx] == 0) {
                 countOfUnique++;
             }
-            map[tailIndx]++; // increment after update num of unique char variable
-            if (map[tailIndx] == givenOccurs) {
-                countOfNotLessThanGivenOccurs++;
+            map[tailIdx]++; // increment after update num of unique char variable
+            if (map[tailIdx] == givenOccurs) {
+                countOfMoreThanGivenOccurs++;
             }
             end++; // move end to next index;
 
             while (countOfUnique > givenCountOfUnqieChars) {
                 frontIdx = s.charAt(start) - 'a';
                 if (map[frontIdx] == givenOccurs) {
-                    countOfNotLessThanGivenOccurs--;
+                    countOfMoreThanGivenOccurs--;
                 }
                 map[frontIdx]--;
                 if (map[frontIdx] == 0) {
@@ -97,8 +97,51 @@ public class LongestSubstringAtLeastRepeatingKChars_395 {
             // if we found a string where the number of unique chars equals our target
             // and all those chars are repeated at least K times then update max
             if (countOfUnique == givenCountOfUnqieChars
-                    && countOfUnique == countOfNotLessThanGivenOccurs) {
+                    && countOfUnique == countOfMoreThanGivenOccurs) {
                 dist = Math.max(dist, end - start); // update new window
+            }
+        }
+        return dist;
+    }
+    /** rewrite */
+    public int longestSubStringIII(String s, int k) {
+        int dist = 0;
+        // add restriction of given fixed numbers of unique characters
+        // so that loop through string to find max
+        for (int uniqueCount = 1; uniqueCount <= 26; uniqueCount++) {
+            dist = Math.max(dist, longestSubstrUnderUniqueChars(s, k, uniqueCount));
+        }
+        return dist;
+    }
+    private int longestSubstrUnderUniqueChars(String s, int k, int cnt) {
+        // init vars
+        int[] map = new int[128];
+        int numUnique = 0; // counter of numbers of unique characters
+        int numMoreThenK = 0; // counter of appearance of character more then K times
+        int begin = 0, end = 0; // two pointers
+        int dist = 0;
+
+        while (end < s.length()) {
+            if (map[s.charAt(end)]++ == 0) {
+                numUnique++; // increment map[idx] after this statement;
+            }
+            if (map[s.charAt(end++)] == k) {
+                numMoreThenK++; // increment end pointer after this statuement;
+            }
+            // slide begin pointer to cut elems at front of window
+            while (numUnique > cnt) {
+                if (map[s.charAt(begin)]-- == k) {
+                    numMoreThenK--; // decrement map[idx] after this statement
+                }
+                if (map[s.charAt(begin++)] == 0) {
+                    numUnique--; // move begin after this statement
+                }
+            }
+            // if we found a substring where numbers of unique chars equals given count of unique char as target
+            // and all these chars repeated at least K times
+            // then update max
+            if (numUnique == cnt && numUnique == numMoreThenK) {
+                dist = Math.max(dist, end - begin);
             }
         }
         return dist;

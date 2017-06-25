@@ -1,5 +1,7 @@
 package com.leetcode.array;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,4 +48,42 @@ public class ContainsDuplicateII_219 {
         int[] nums = {1,2,3,1,4};
         System.out.println(c.containsNearbyDuplicate(nums, 2));
     }
+
+    /** another solution, faster in small data size
+     * use auxiliary class to wrap index and val info
+     * and then sort original array */
+    private class Wrapper {
+        int val;
+        int index;
+    }
+    private class CustomComparator implements Comparator<Wrapper> {
+
+        @Override
+        public int compare(Wrapper o1, Wrapper o2) {
+            if (o1.val != o2.val) {
+                return o1.val - o2.val;
+            }
+            return o1.index - o2.index;
+        }
+    }
+    public boolean containsNearbyDuplicateII(int[] nums, int k) {
+        int len = nums.length;
+        Wrapper[] wrappers = new Wrapper[len];
+        Wrapper wrapper = null;
+        for (int i = 0; i < len; i++) {
+            wrapper = new Wrapper();
+            wrapper.val = nums[i];
+            wrapper.index = i;
+            wrappers[i] = wrapper;
+        }
+        Arrays.sort(wrappers, 0, len, new CustomComparator());
+        for (int i = 0; i < len - 1; i++) {
+            if (wrappers[i].val == wrappers[i+1].val
+                    && Math.abs(wrappers[i].index - wrappers[i+1].index) <= k) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

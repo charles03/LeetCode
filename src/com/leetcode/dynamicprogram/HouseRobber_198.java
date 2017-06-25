@@ -29,4 +29,18 @@ public class HouseRobber_198 {
         }
         return res[len % 2];
     }
+
+    public int robII(int[] nums) {
+        int robPrev = 0;
+        int notRobPrev = 0;
+        int robCurr = 0;
+        int notRobCurr = 0;
+        for (int i = 0; i < nums.length; i++) {
+            robCurr = notRobPrev + nums[i];
+            notRobCurr = Math.max(robPrev, notRobPrev);
+            robPrev = robCurr;
+            notRobPrev = notRobCurr;
+        }
+        return Math.max(robPrev, notRobPrev);
+    }
 }

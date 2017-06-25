@@ -1,6 +1,7 @@
-package com.pricinton.datastructure;
+package com.princeton.datastructure;
 
 import java.util.NoSuchElementException;
+import com.princeton.stdlib.*;
 
 /**
  *  The {@code BST} class represents an ordered symbol table of generic

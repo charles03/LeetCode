@@ -27,6 +27,12 @@ package com.leetcode.array;
 
  */
 public class NthDigit_400 {
+    /** find range
+     *  10,11,...99: 90 * 2 digits in total
+     * 101,102...999: 900 * 3 digits in total
+     * k is current numbers of digits
+     * base is 9, 90, 900
+     * start is 10, 100, 1000*/
     public int findNthDigit(int n) {
         int k = 1;
         long base = 9;

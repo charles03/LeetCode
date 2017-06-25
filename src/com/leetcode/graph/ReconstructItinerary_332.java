@@ -117,4 +117,28 @@ public class ReconstructItinerary_332 {
         }
         return false;
     }
+
+    /** better iteration solution
+     * use linked list to store result, add(index, val) to keep insertion at the head of list
+     * and use stack to keep dfs search
+     */
+    public List<String> findItinerayII(String[][] tickets) {
+        // build graph
+        Map<String, PriorityQueue<String>> graph = new HashMap<>();
+        for (String[] ticket : tickets) {
+            graph.computeIfAbsent(ticket[0], k -> new PriorityQueue<String>()).add(ticket[1]);
+        }
+        List<String> route = new LinkedList<>(); // better to insert new node at front
+        Stack<String> stack = new Stack<>(); // for dfs
+        String start = "JFK";
+        stack.push(start);
+        while (!stack.isEmpty()) {
+            while (graph.containsKey(stack.peek()) && !graph.get(stack.peek()).isEmpty()) {
+                stack.push(graph.get(stack.peek()).poll());
+            }
+            route.add(0, stack.pop());
+        }
+        return route;
+
+    }
 }

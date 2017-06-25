@@ -34,8 +34,9 @@ public class ConvertNumberToHexadecimal_405 {
         StringBuilder sb = new StringBuilder();
 
         while (num != 0) {
-            sb.insert(0, hex[num & 15]);
+            sb.insert(0, hex[num & 15]); // num & 15 => num % 16
             num >>>= 4; // should use right unsigned shift instead of signed shift
+            // num /= 16
         }
         return sb.toString();
     }

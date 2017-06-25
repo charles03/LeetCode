@@ -34,4 +34,24 @@ public class LexicographicalNumbers_386 {
         }
         return res;
     }
+
+    public static void main(String[] args) {
+        LexicographicalNumbers_386 l = new LexicographicalNumbers_386();
+        output(l.lexicalOrder(200), 10);
+    }
+
+    /** use array as counter inside lambda Stream
+     * to beautify printing, every size number of elem, start in new line.
+     */
+    private static void output(List<Integer> list, int size) {
+        final int[] count = {0};
+        list.stream().forEach(a -> {
+            count[0]++;
+            System.out.print(a + ",");
+            if (count[0] % size == 0) {
+                System.out.println();
+            }
+        });
+        System.out.println();
+    }
 }

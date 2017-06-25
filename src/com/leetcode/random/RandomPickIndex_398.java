@@ -23,11 +23,12 @@ import java.util.Random;
 public class RandomPickIndex_398 {
     /**
      * Reservoir sampling,
-     * is a family of randomized algorithms for randomly choosing a sample of k items from a list S containing n items, where n is either a very large or unknown number. Typically n is large enough that the list doesn't fit into main memory.
+     * is a family of randomized algorithms for randomly choosing a sample of k items from a list S containing n items, where n is either a very large or unknown number.
+     * Typically n is large enough that the list doesn't fit into main memory.
      * Keep the first item in memory.
-     When the i-th item arrives (for {\displaystyle i>1} i>1):
-     with probability {\displaystyle 1/i} 1/i, keep the new item (discard the old one)
-     with probability {\displaystyle 1-1/i} {\displaystyle 1-1/i}, keep the old item (ignore the new one)
+     When the i-th item arrives (for { i>1} i>1):
+     with probability { 1/i} 1/i, keep the new item (discard the old one)
+     with probability { 1-1/i} { 1-1/i}, keep the old item (ignore the new one)
      So:
 
      when there is only one item, it is kept with probability 1;

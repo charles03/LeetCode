@@ -147,6 +147,11 @@ public class PerfectRectangle_391 {
             if(!points.add(point)) points.remove(point);
         }
 
-        return size == SIZE && points.size() == 4 && points.contains(0) && points.contains(RIGHT-LEFT) && points.contains((TOP-BOTTOM) * X) && points.contains(RIGHT - LEFT + (TOP-BOTTOM) * X);
+        return size == SIZE
+                && points.size() == 4
+                && points.contains(0)
+                && points.contains(RIGHT-LEFT)
+                && points.contains((TOP-BOTTOM) * X)
+                && points.contains(RIGHT - LEFT + (TOP-BOTTOM) * X);
     }
 }

@@ -8,7 +8,7 @@ package com.leetcode.dynamicprogram;
  */
 public class BestTimeToBuySellStockII_122 {
     /**
-     * Instead of lookfing for every peak following a valley, we can simply go on crawling over the slope
+     * Instead of looking for every peak following a valley, we can simply go on crawling over the slope
      * and keep on adding profit obtained from every consecutive transacction.
      * In the end, we will be using peaks and valleys effectively.
      */

@@ -34,8 +34,10 @@ public class HouseRobberII_213 {
         if (l + 1 == r) { // adjacent
             return Math.max(arr[l], arr[r]);
         }
+        // init
         dp[l % 2] = arr[l];
         dp[(l + 1) % 2] = Math.max(arr[l], arr[l + 1]);
+        // dp for loop start after skip first two
         for (int i = l + 2; i <= r; i++) {
             dp[i % 2] = Math.max(dp[(i - 2)% 2] + arr[i], dp[(i-1) % 2]);
         }

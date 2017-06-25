@@ -31,6 +31,11 @@ import java.util.Queue;
  Topological sort could also be done via BFS.
  */
 public class CourseSchedule_207 {
+    /**
+     * courses from 0 ... n-1
+     * init array of List<Int> to hold graph structure
+     * arr[root] -> list -> neighbor vertexs as edge with direction
+     */
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         List<Integer>[] graph = new ArrayList[numCourses];
         int[] degree = new int[numCourses];
@@ -73,6 +78,62 @@ public class CourseSchedule_207 {
         }
     }
 
+    /** topological sorting
+     * keep add vertex into queue when it's indegree is zero */
+    public boolean canFinishByBFS(int numsCourses, int[][] prerequisites) {
+        List<Integer>[] graph = new ArrayList[numsCourses];
+        Queue<Integer> queue = new LinkedList<>();
+        int[] degree = new int[numsCourses];
+
+        initGraph(graph);
+        constructGraph(graph, prerequisites, degree);
+        int countOfRoot = addGraphRoot(degree, queue);
+        int countOfVertex = bfsGraph(graph, queue, degree);
+        return countOfRoot + countOfVertex == numsCourses;
+    }
+    private void initGraph(List<Integer>[] graph) {
+        for (int i = 0; i < graph.length; i++) {
+            graph[i] = new ArrayList<>();
+        }
+    }
+    private void constructGraph(List<Integer>[] graph, int[][] data, int[] degree) {
+        int root = 0, vertex = 0;
+        for (int i = 0; i < data.length; i++) {
+            root = data[i][0];
+            vertex = data[i][1];
+            graph[root].add(vertex);
+            degree[vertex]++;
+        }
+    }
+    private int addGraphRoot(int[] degree, Queue<Integer> queue) {
+        int count = 0;
+        for (int i = 0; i < degree.length; i++) {
+            if (degree[i] == 0) {
+                queue.add(i);
+                count++;
+            }
+        }
+        return count;
+    }
+    private int bfsGraph(List<Integer>[] graph, Queue<Integer> queue, int[] degree) {
+        int count = 0;
+        int course = 0;
+        int vertex = 0;
+        while (queue.size() != 0) {
+            course = queue.poll();
+            for (int i = 0; i < graph[course].size(); i++) {
+                vertex = graph[course].get(i);
+                degree[vertex]--; // in-degree decrement
+                if (degree[vertex] == 0) {
+                    queue.add(vertex);
+                    count++; // find one node
+                }
+            }
+        }
+        return count;
+    }
+
+
     public boolean canFinishByDfs(int numCourses, int[][] prerequisites) {
         List<Integer>[] graph = new ArrayList[numCourses];
         for (int i = 0; i < numCourses; i++) {
@@ -88,28 +149,28 @@ public class CourseSchedule_207 {
         }
 
         for (int i = 0; i < numCourses; i++) {
-            if (!dfs(graph, visited, i)) {
+            if (isContainCycle(graph, visited, i)) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean dfs(List<Integer>[] graph, boolean[] visited, int course) {
+    private boolean isContainCycle(List<Integer>[] graph, boolean[] visited, int course) {
         if (visited[course]) {
-            return false;
+            return true;
         } else {
             // update
             visited[course] = true;
         }
         // dfs
         for (int i = 0; i < graph[course].size(); i++) {
-            if (!dfs(graph, visited, graph[course].get(i))) {
-                return false;
+            if (isContainCycle(graph, visited, graph[course].get(i))) {
+                return true;
             }
         }
         // undo
         visited[course] = false;
-        return true;
+        return false;
     }
 }

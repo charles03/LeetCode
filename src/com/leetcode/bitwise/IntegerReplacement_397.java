@@ -82,13 +82,14 @@ public class IntegerReplacement_397 {
             if ((N & 1) == 0) {
                 N >>= 1;
             } else {
+                // special cases
                 if (N == 3) {
                     count += 2;
                     break;
                 }
-                if ((N & 2) == 2) {
+                if ((N & 2) == 2) { // when second lowest digit is one
                     N = N + 1;
-                } else {
+                } else { // when second lowest digits is zero
                     N = N - 1;
                 }
             }

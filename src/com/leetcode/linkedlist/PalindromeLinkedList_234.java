@@ -40,6 +40,39 @@ public class PalindromeLinkedList_234 {
         return true;
     }
 
+    /**
+     * palindrome, mid -> front == mid -> tail
+     * use fast-slow pointer, reverse first half while move slow pointer
+     */
+    public boolean isPalindromeII(ListNode head) {
+        if (head == null) {
+            return true;
+        }
+        ListNode fast = head, slow = head;
+        ListNode node;
+        ListNode prev = null;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            // reverse first half
+            node = slow.next;
+            slow.next = prev;
+            prev = slow;
+            slow = node;
+        }
+        // when odd number of element, move slow pointer one step right, to pass mid
+        if (fast != null) {
+            slow = slow.next;
+        }
+        while (prev != null) {
+            if (prev.getVal() != slow.getVal()) {
+                return false;
+            }
+            slow = slow.next;
+            prev = prev.next;
+        }
+        return true;
+    }
+
     public boolean isPalindromeTest(ListNode head) {
         if (head == null) {
             return true;

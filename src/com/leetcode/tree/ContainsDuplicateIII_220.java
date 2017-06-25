@@ -11,7 +11,7 @@ import java.util.TreeSet;
  */
 public class ContainsDuplicateIII_220 {
     /**
-     * use TreeSet solution, similar to Binary Search treee
+     * use TreeSet solution, similar to Binary Search tree
      * Apply Long primitive type is for edge case [-1, 2147483647], k = 1, t = 2146483647
      */
     public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {

@@ -19,8 +19,6 @@ public class ExcelSheetColumnNumber_171 {
     /**
      * Thought: A * 26 + A
      */
-    private char[] letters = {'A','B','C'};
-
     public int titleToNumber(String s) {
         if (s == null || s.length() == 0) {
             return 0;
@@ -32,5 +30,12 @@ public class ExcelSheetColumnNumber_171 {
             sum = sum * 26 + chars[i] - 'A' + 1;
         }
         return sum;
+    }
+    public static void main(String[] args) {
+        ExcelSheetColumnNumber_171 e = new ExcelSheetColumnNumber_171();
+        String s1 = "AB";
+        String s2 = "ZA";
+        System.out.println(e.titleToNumber(s1));
+        System.out.println(e.titleToNumber(s2));
     }
 }

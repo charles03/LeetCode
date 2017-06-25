@@ -35,6 +35,20 @@ public class BinaryTreePreorderTraversal_144 {
         return res;
     }
 
+    /** Divide and Conquer */
+    public List<Integer> preorderTraversalDFS(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        List<Integer> left = preorderTraversalDFS(root.left);
+        List<Integer> right = preorderTraversalDFS(root.right);
+        res.add(root.val);
+        res.addAll(left);
+        res.addAll(right);
+        return res;
+    }
+
     public static void main(String[] args) {
         TreeNode root = TreeNodeUtil.deserialize("1,2,3,#,4,5");
         TreeNode root1 = TreeNodeUtil.deserialize("1,2,3,#,4,5,#,6,7,8");

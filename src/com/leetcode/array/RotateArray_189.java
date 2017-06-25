@@ -60,6 +60,32 @@ public class RotateArray_189 {
         }
     }
 
+    /**
+     * 3rd solution: Cycllic Replacement
+     * first to get moded k,
+     * then from start of array consecutively move index to (index + k) % num.length
+     */
+    public void rotate3(int[] nums, int k) {
+        k = k % nums.length;
+        int currIdx = 0, prevNum = 0;
+        int nextIdx = 0, nextNum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            currIdx = i;
+            prevNum = nums[i];
+            do {
+                // to get next index for cyclic rolling
+                nextIdx = (currIdx + k) % nums.length;
+                // get value at next index
+                nextNum = nums[nextIdx];
+                // update prev num intp next index
+                nums[nextIdx] = prevNum;
+                // copy original value at next index as prev num for next rolling
+                prevNum = nextNum;
+                currIdx = nextIdx;
+            } while (currIdx != i);
+        }
+    }
+
     public static void main(String[] args) {
         int[] nums = {1,2,3,4,5,6,7};
         RotateArray_189 r = new RotateArray_189();

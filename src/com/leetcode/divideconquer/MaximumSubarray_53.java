@@ -34,6 +34,13 @@ public class MaximumSubarray_53 {
 
     /**
      * DP space optimization Greedy
+     * Thought:
+     * current max sub sum at index i,
+     * if (previous sub sum less then 0) means there is no meaning to add nums[i] to previous subsum
+     * thus current sub sum for index i will be nums[i] itself
+     * else, current sub sum for index i will be subsum + nums[i]
+     * And then, use global Var to record global max sub sum
+     * res = Math.max(res, subSum);
      */
     public int maxSubArrayOptimize(int[] nums) {
         int res = Integer.MIN_VALUE;

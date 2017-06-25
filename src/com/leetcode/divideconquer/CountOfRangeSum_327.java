@@ -102,7 +102,7 @@ public class CountOfRangeSum_327 {
         }
         // key is sum of (i,j) value is count of occurrence
         TreeMap<Long, Long> rangeMap = new TreeMap<>();
-        rangeMap.put((long)0, (long)0);
+        rangeMap.put(0L, 1L); // key is sum, value is count of this sum
         long sum = 0;
         long count = 0;
         for (int i = 0; i < nums.length; i++) {
@@ -117,9 +117,68 @@ public class CountOfRangeSum_327 {
             if (rangeMap.containsKey(sum)) {
                 rangeMap.put(sum, rangeMap.get(sum) + 1);
             } else {
-                rangeMap.put(sum, (long)1);
+                rangeMap.put(sum, 1L);
             }
         }
         return (int)count;
+    }
+
+    /**
+     * Merge sort solution:
+     * count answer while doing the merge, we have sorted left half[start, mid)
+     * and right half [mid, end)
+     * iterate through left half with index i, for each i, need to find two indices k and j
+     * in the right half where
+     *  j is first index satisfy sum[j] - sum[i] > upper
+     *  k is first index satisfy sum[k] - sum[i] >= lower
+     *
+     *  The number of sum in [lower, upper] is j-k
+     *  we also use another index t to copy elements satisfy sum[t] < sum[i] to a cache
+     *  in order to complete the merge sort
+     *
+     *  "merge & count" stage is still liner because indices k,j,t only increase but not decrease
+     *  each of them will only traversal right half once at most.
+     *
+     *  use long in sum to avoid overflow integer
+     */
+    public int countRangeSumIII(int[] nums, int lower, int upper) {
+        int len = nums.length;
+        long[] prefixSum = new long[len + 1];
+        for (int i = 0; i < len; i++) {
+            prefixSum[i+1] = prefixSum[i] + nums[i];
+        }
+        return countInMergeSort(prefixSum, 0, len+1, lower, upper);
+    }
+    private int countInMergeSort(long[] sum, int start, int end, int lower, int upper) {
+        if (start + 1 >= end) {
+            return 0;
+        }
+        int mid = start + (end - start) / 2;
+        // divide and conquer
+        int count = countInMergeSort(sum, start, mid, lower, upper)
+                + countInMergeSort(sum, mid, end, lower, upper);
+        // process merge
+        // having left half [start, mid] and right half [mid, end]
+        int j = mid, k = mid, t = mid;
+        long[] cache = new long[end - start];
+        int idx = 0;
+        for (int i = start; i < mid; i++) {
+            // to find starting point k where sum[k] - sum[i] >= lower
+            while (k < end && sum[k] - sum[i] < lower) {
+                k++;
+            }
+            // to find starting point j while sum[j] - sum[i] > upper
+            while (j < end && sum[j] - sum[i] <= upper) {
+                j++;
+            }
+            // merge, keep small in either half at front
+            while (t < end && sum[t] < sum[i]) {
+                cache[idx++] = sum[t++];
+            }
+            cache[idx] = sum[i];
+            count += j - k;
+        }
+        System.arraycopy(cache, 0, sum, start, t - start);
+        return count;
     }
 }

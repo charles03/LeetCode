@@ -33,7 +33,7 @@ public class TrappingRainWaterII_407 {
         }
         int row = heights.length;
         int col = heights[0].length;
-        boolean[][] vistied = new boolean[row][col];
+        boolean[][] visited = new boolean[row][col];
         PriorityQueue<Pillar> heap = new PriorityQueue<>(new PillarComparator());
         // add four edge into heap
         for (int i = 0; i < row; i++) {
@@ -51,8 +51,8 @@ public class TrappingRainWaterII_407 {
             for (int k = 0; k < 4; k++) {
                 nx = now.x + dx[k];
                 ny = now.y + dy[k];
-                if (0<=nx && nx<row && 0<=ny && ny<col && !vistied[nx][ny]) {
-                    vistied[nx][ny] = true;
+                if (0<=nx && nx<row && 0<=ny && ny<col && !visited[nx][ny]) {
+                    visited[nx][ny] = true;
                     // add new wall into heap
                     heap.offer(new Pillar(nx, ny, Math.max(now.z, heights[nx][ny])));
                     // find trapping water

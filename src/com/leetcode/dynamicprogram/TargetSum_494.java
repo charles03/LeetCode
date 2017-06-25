@@ -80,6 +80,16 @@ public class TargetSum_494 {
 
     /**
      * Space Optimization
+     * Here positive subset is P = [1, 3, 5] and negative subset is N = [2, 4]
+
+     Then let's see how this can be converted to a subset sum problem:
+
+                       sum(P) - sum(N) = target
+     sum(P) + sum(N) + sum(P) - sum(N) = target + sum(P) + sum(N)
+                            2 * sum(P) = target + sum(nums)
+     *
+     * So the original problem has been converted to a subset sum problem as follows:
+     Find a subset P of nums such that sum(P) = (target + sum(nums)) / 2
      */
     public int findTargetSumWaysII(int[] nums, int s) {
         int sum = 0;
@@ -92,14 +102,49 @@ public class TargetSum_494 {
         return subsetSumII(nums, (s + sum) >>> 1);
     }
 
+    /**
+     * because all raw numbers are positive
+     *
+     * state: dp[j] count of ways to get subset of sum equal to j
+     * func : dp[j] += dp[j-nums[i]]
+     * init: dp[0] = 1;
+     */
     private int subsetSumII(int[] nums, int t) {
         int[] dp = new int[t + 1];
         dp[0] = 1;
         for (int i = 0; i < nums.length; i++) {
             for (int j = t; j >= nums[i]; j--) {
+                // dp[j][k] += dp[j-nums[k]][k-1]
+                // dp[j] =dp[j] + dp[j-nums[i]]
+
+                // total numbers of subset ways to j
+                // include two below scenarios
+                // 1:  original numbers of subset ways to j
+                // or plus
+                // 2 : numbers of subset ways to j-nums[i];
                 dp[j] += dp[j - nums[i]];
             }
         }
         return dp[t];
+    }
+
+    /**
+     * O(2^n) exponential solution
+     * backtrack
+     */
+    private int globalCnt = 0;
+    public int findTargetSumWaysIII(int[] nums, int s) {
+        dfs(nums, s, 0);
+        return globalCnt;
+    }
+    private void dfs(int[] nums, int s, int start) {
+        if (start == nums.length) {
+            if (s == 0) {
+                globalCnt++;
+            }
+            return;
+        }
+        dfs(nums, s - nums[start], start + 1);
+        dfs(nums, s + nums[start], start + 1);
     }
 }

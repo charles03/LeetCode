@@ -2,6 +2,8 @@ package com.leetcode.dynamicprogram;
 
 import com.advanced.dataStructure.trie.AddAndSearchWord;
 
+import javax.swing.plaf.metal.MetalTheme;
+
 /**
  * Created by charles on 1/31/17.
  * Find the contiguous subarray within an array (containing at least one number) which has the largest product.
@@ -68,5 +70,27 @@ public class MaximumProductSubarray_152 {
             i++;
         }
         return res;
+    }
+
+    /** O(1) space optimization */
+    public int maxProductII(int[] nums) {
+        int res = nums[0];
+        int currMax = nums[0];
+        int currMin = nums[0];
+
+        int prevMax;
+        for (int i = 1; i < nums.length; i++) {
+            prevMax = currMax;
+            currMax = max(nums[i], prevMax * nums[i], currMin * nums[i]);
+            currMin = min(nums[i], prevMax * nums[i], currMin * nums[i]);
+            res = Math.max(currMax, res);
+        }
+        return res;
+    }
+    private int max(int a, int b, int c) {
+        return Math.max(a, Math.max(b,c));
+    }
+    private int min(int a, int b, int c) {
+        return Math.min(a, Math.min(b,c));
     }
 }
